@@ -8,20 +8,13 @@ def timer(func):
 		return result
 	return wrapper
 
-@timer	
+@timer
 def tshark():
 	x=1
 	while True:
-		print("here")
-		x+=1
 		fileName = "test" + str(x)
 		tshark = "C:\\Program Files\\Wireshark\\tshark.exe"
-		try:
-			os.system("tshark -i Ethernet -T fields -e \"frame.time\" -e \"ip.src\" -e \"ip.dst\" -e \"tcp.srcport\" -e \"tcp.port\" -e \"tcp.dstport\" -c 10 -w" + fileName)
-			print(x)
-		except:
-			print("tshark error")
-			print(x)
-
+		os.system("tshark -i en0  -T fields -e \"frame.time\" -e \"ip.src\" -e \"ip.dst\" -e \"tcp.srcport\" -e \"tcp.port\" -e \"tcp.dstport\" -c 10 -w ./captures/" + fileName)
+		print("Tshark capture: " + str(x))
+		x += 1
 tshark()
-print(2+2)
