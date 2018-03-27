@@ -26,7 +26,7 @@ def main():
 	run_interval = 0
 	i = 0
 	while True:
-		fileName = "test" + str(i)
+		fileName = "capture_" + str(i)
 		tshark = "C:\\Program Files\\Wireshark\\tshark.exe"
 		system("tshark -i " + interface +  " -T fields -e \"frame.time\" -e \"ip.src\" -e \"ip.dst\" -e \"tcp.srcport\" -e \"tcp.port\" -e \"tcp.dstport\" -c " + packet_num  + " -T ek > ./captures/" + fileName + ".json")
 		print("Tshark capture: " + str(i))
