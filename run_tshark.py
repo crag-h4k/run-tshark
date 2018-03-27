@@ -1,20 +1,39 @@
-import os, time
-def timer(func):
-	def wrapper(*args,**kwargs):
-		start = time.time()
-		result = func(*args,**kwargs)
-		end = time.time()
-		print(func.__name__ +" took " + str((end-start)*1000) + "mil sec")
-		return result
-	return wrapper
+from os import system
+from time import sleep
 
-@timer
-def tshark():
-	x=1
+
+def main():
+
+	def print_net_interfaces():
+		system("tshark -D")
+		interface = input("which interface? Type name of interface, not number\n")
+		return interface
+
+	def run_it():
+		run_interval = input("How often to run tshark, in seconds? 0 for no wait between captures\n")
+		return run_interval
+
+
+	def capture_num():
+		packet_num = input("How many packets per cycle?\n")
+		return packet_num
+
+	#interface = print_net_interfaces()
+	interface = en0
+	#packet_num = capture_num()
+	packet_num = 100
+	#run_interval = run_it()
+	run_interval = 0
+
 	while True:
-		fileName = "test" + str(x)
+		i = 0
+		i += 1
+
+		fileName = "test" + str(i)
 		tshark = "C:\\Program Files\\Wireshark\\tshark.exe"
-		os.system("tshark -i en0  -T fields -e \"frame.time\" -e \"ip.src\" -e \"ip.dst\" -e \"tcp.srcport\" -e \"tcp.port\" -e \"tcp.dstport\" -c 10 -w ./captures/" + fileName)
-		print("Tshark capture: " + str(x))
-		x += 1
-tshark()
+		system("tshark -i " + interface +  " -T fields -e \"frame.time\" -e \"ip.src\" -e \"ip.dst\" -e \"tcp.srcport\" -e \"tcp.port\" -e \"tcp.dstport\" -c " + packet_num  + " -T ek > ./captures/" + fileName + ".json")
+		print("Tshark capture: " + str(i))
+		sleep(int(run_interval))
+
+main()
+exit()
